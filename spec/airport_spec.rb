@@ -14,15 +14,15 @@ describe Airport do
         expect(airport).to respond_to(:land).with(1).argument
       end
   
-      context 'when full' do
-        it 'does not allow landing' do 
-          30.times do 
-            airport.land(plane)
-          end 
-          expect { airport.land(plane) }.to raise_error "Airport full: Cannot land plane"
-        end
-      end 
+    context 'when full' do
+      it 'does not allow landing' do 
+        30.times do 
+          airport.land(plane)
+        end 
+        expect { airport.land(plane) }.to raise_error "Airport full: Cannot land plane"
+      end
     end 
+  end 
 
     context 'when stormy' do
       it 'raises an error if asked to land a plane when stormy' do
@@ -39,9 +39,15 @@ describe Airport do
       end
       
       it 'confirms that a plane is no longer at the airport' do
+        allow(airport).to receive(:stormy?).and_return false
         airport.land(plane)
         taking_off = airport.take_off(plane)
         expect(taking_off).to eq "Plane has taken off"
+      end
+
+      it 'does not allow plane takeoff when weather is stormy' do
+        allow(airport).to receive(:stormy?).and_return true 
+        expect {airport.take_off(plane) }.to raise_error "Cannot takeoff: weather is stormy"
       end
   end
 

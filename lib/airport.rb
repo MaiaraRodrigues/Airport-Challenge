@@ -13,6 +13,7 @@ class Airport
   end 
 
   def take_off(plane)
+    raise "Cannot takeoff: weather is stormy" if stormy?
     "Plane has taken off"
   end 
 
@@ -23,7 +24,7 @@ class Airport
   end 
 
   def stormy?
-    rand(1..6) > 4
+    rand(1..6) > 4 
   end 
 
 end 
