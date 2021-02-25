@@ -45,12 +45,12 @@ I want to prevent landing when weather is stormy
 
 The task was to test drive the creation of a set of classes/modules to satisfy all the above user stories.
 
-Edge cases: 
+# Edge cases: 
  - Takes off planes only from the airport they are at
  - Flying plane cannot be in an airport
  - Flying planes cannot take off
 
- Tests: 
+ # Tests: 
  
 
 ![Imgur](https://imgur.com/8yShmEm.png)
