@@ -50,8 +50,7 @@ Edge cases:
  - Flying plane cannot be in an airport
  - Flying planes cannot take off
 
- Tests:
-
- ![Imgur](https://imgur.com/MKEdU5V)
-
+ Tests: 
+ 
+[Imgur](https://imgur.com/8yShmEm)
  
