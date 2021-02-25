@@ -1,13 +1,14 @@
 require 'airport'
 
 describe Airport do 
-  subject(:airport) { described_class.new(30) }
+  subject(:airport) { described_class.new(30, weather_reporter) }
   let(:plane) { double :plane }
+  let(:weather_reporter) { double :weather_reporter }
 
   describe '#land' do
     context "when not stormy" do
       before do
-        allow(airport).to receive(:stormy?).and_return false
+        allow(weather_reporter).to receive(:stormy?).and_return false
       end 
 
       it 'instructs a plane to land' do 
@@ -26,7 +27,7 @@ describe Airport do
 
     context 'when stormy' do
       it 'raises an error if asked to land a plane when stormy' do
-        allow(airport).to receive(:stormy?).and_return true
+        allow(weather_reporter).to receive(:stormy?).and_return true
         expect { airport.land(plane) }.to raise_error "Cannot land plane: weather is stormy"
       end 
     end
@@ -39,14 +40,14 @@ describe Airport do
       end
       
       it 'confirms that a plane is no longer at the airport' do
-        allow(airport).to receive(:stormy?).and_return false
+        allow(weather_reporter).to receive(:stormy?).and_return false
         airport.land(plane)
         taking_off = airport.take_off(plane)
         expect(taking_off).to eq "Plane has taken off"
       end
 
       it 'does not allow plane takeoff when weather is stormy' do
-        allow(airport).to receive(:stormy?).and_return true 
+        allow(weather_reporter).to receive(:stormy?).and_return true 
         expect {airport.take_off(plane) }.to raise_error "Cannot takeoff: weather is stormy"
       end
   end
@@ -54,7 +55,7 @@ describe Airport do
   context 'defaults' do
     
     it 'has a default capacity' do
-      allow(airport).to receive(:stormy?).and_return false
+      allow(weather_reporter).to receive(:stormy?).and_return false
       described_class::DEFAULT_CAPACITY.times { airport.land(plane) }
       expect{ airport.land(plane) }.to raise_error "Airport full: Cannot land plane"
     end
