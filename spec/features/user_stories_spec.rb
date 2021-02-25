@@ -22,11 +22,6 @@ describe 'user stories' do
       expect { airport.take_off(plane) }.not_to raise_error
     end
 
-    it 'confirms that plane is no longer at the airport' do
-      airport.land(plane)
-      expect(airport.take_off(plane)).to eq "Plane has taken off"
-    end
-
     # As an air traffic controller 
     # To ensure safety 
     # I want to prevent landing when the airport is full
@@ -45,11 +40,25 @@ describe 'user stories' do
       Airport::DEFAULT_CAPACITY.times { airport.land(plane) }
       expect { airport.land(plane) }.to raise_error "Airport full: Cannot land plane"
     end 
-
+    # Edge case for planes that are not in the airport
     it "takes off planes only from the airport they are at" do
       airport_2 = Airport.new(20, weather_reporter)
       airport_2.land(plane)
       expect { airport.take_off(plane) }.to raise_error "Cannot takeoff plane: it is not at this airport"
+    end
+
+    #Edge case: if plane is flying cannot takeoff
+    it "flying planes cannot takeoff" do
+      airport.land(plane)
+      flying_plane = airport.take_off(plane)
+      expect { flying_plane.take_off }.to raise_error "Plane cannot takeoff: plane already flying"
+    end
+
+    #Edge case: if plane is flying cannot be in the airport
+    it "Flying plane cannot be in an airport" do
+      airport.land(plane)
+      flying_plane = airport.take_off(plane)
+      expect { flying_plane.airport }.to raise_error "Plane cannot be in the airport: plane is flying"
     end
 
 end

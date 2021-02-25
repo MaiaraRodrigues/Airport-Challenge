@@ -29,12 +29,10 @@ describe Airport do
       it 'instructs a plane to take off' do
         expect(airport).to respond_to(:take_off).with(1).argument
       end
-      
-      it 'confirms that a plane is no longer at the airport' do
-        allow(weather_reporter).to receive(:stormy?).and_return false
+
+      it "returns the plane that took off" do
         airport.land(plane)
-        taking_off = airport.take_off(plane)
-        expect(taking_off).to eq "Plane has taken off"
+        expect(airport.take_off(plane)).to eq plane
       end
 
       it 'raises an error if plane is not at this airport' do

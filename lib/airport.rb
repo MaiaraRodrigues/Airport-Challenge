@@ -1,4 +1,5 @@
 require 'weather_reporter'
+require 'plane'
 
 class Airport
   DEFAULT_CAPACITY = 30
@@ -18,7 +19,7 @@ class Airport
   def take_off(plane)
     raise "Cannot takeoff: weather is stormy" if stormy?
     raise "Cannot takeoff plane: it is not at this airport" unless at_airport?(plane)
-    "Plane has taken off"
+    plane
   end 
 
   private 
