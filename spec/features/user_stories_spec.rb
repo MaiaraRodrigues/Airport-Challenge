@@ -6,6 +6,7 @@ describe 'user stories' do
   it 'instructs plans to land' do 
     airport = Airport.new(30)
     plane = Plane.new
+    allow(airport).to receive(:stormy?).and_return false
     expect { airport.land(plane) }.not_to raise_error
   end
 
@@ -15,6 +16,7 @@ describe 'user stories' do
   it 'responds to land method' do
     airport = Airport.new(30)
     plane = Plane.new
+    allow(airport).to receive(:stormy?).and_return false
     expect { airport.take_off(plane) }.not_to raise_error
   end
 
@@ -22,6 +24,7 @@ describe 'user stories' do
     airport = Airport.new(30)
     plane = Plane.new
     airport.land(plane)
+    allow(airport).to receive(:stormy?).and_return false
     expect(airport.take_off(plane)).to eq "Plane has taken off"
   end
 
@@ -31,6 +34,7 @@ describe 'user stories' do
   it 'does not allow planes to land when airport is full' do
     airport = Airport.new(30)
     plane = Plane.new
+    allow(airport).to receive(:stormy?).and_return false
     30.times do
       airport.land(plane)
     end 
@@ -43,7 +47,20 @@ describe 'user stories' do
   it 'defaults to a capacity that can be overridden' do
     airport = Airport.new
     plane = Plane.new
+    allow(airport).to receive(:stormy?).and_return false
     Airport::DEFAULT_CAPACITY.times { airport.land(plane) }
     expect { airport.land(plane) }.to raise_error "Airport full: Cannot land plane"
   end 
+
+# As an air traffic controller 
+# To ensure safety 
+# I want to prevent takeoff when weather is stormy 
+  it ' does not allow planes to take off when weather is stormy' do
+    airport = Airport.new(30)
+    plane = Plane.new
+    allow(airport).to receive(:stormy?).and_return true
+    expect { airport.land(plane) }.to raise_error "Cannot land plane: weather is stormy"
+
+  end
+
 end

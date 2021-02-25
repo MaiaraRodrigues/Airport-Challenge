@@ -6,17 +6,24 @@ describe Airport do
 
   describe '#land' do
     it 'instructs a plane to land' do
+      allow(airport).to receive(:stormy?).and_return false
       expect(airport).to respond_to(:land).with(1).argument
     end
 
     context 'when full' do
       it 'does not allow landing' do 
+        allow(airport).to receive(:stormy?).and_return false
         30.times do 
           airport.land(plane)
         end 
         expect { airport.land(plane) }.to raise_error "Airport full: Cannot land plane"
       end
     end 
+
+      it 'raises an error if asked to land a plane when stormy' do
+        allow(airport).to receive(:stormy?).and_return true
+        expect { airport.land(plane) }.to raise_error "Cannot land plane: weather is stormy"
+      end 
   end 
 
   describe '#take_off' do 
@@ -35,6 +42,7 @@ describe Airport do
   context 'defaults' do
     
     it 'has a default capacity' do
+      allow(airport).to receive(:stormy?).and_return false
       described_class::DEFAULT_CAPACITY.times { airport.land(plane) }
       expect{ airport.land(plane) }.to raise_error "Airport full: Cannot land plane"
     end
