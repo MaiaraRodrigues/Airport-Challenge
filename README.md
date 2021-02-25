@@ -52,5 +52,6 @@ Edge cases:
 
  Tests: 
  
-[Imgur](https://imgur.com/8yShmEm)
+
+![Imgur](https://imgur.com/8yShmEm.png)
  
