@@ -32,4 +32,12 @@ describe Airport do
     end
   end
 
+  context 'defaults' do
+    
+    it 'has a default capacity' do
+      described_class::DEFAULT_CAPACITY.times { airport.land(plane) }
+      expect{ airport.land(plane) }.to raise_error "Airport full: Cannot land plane"
+    end
+  end
+
 end
